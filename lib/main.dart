@@ -1,7 +1,14 @@
+import 'dart:developer' as devtools show log;
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_mikolaj/state/auth/backend/authenticator.dart';
 
 import 'firebase_options.dart';
+
+extension Log on Object {
+  void log() => devtools.log(toString());
+}
 
 // https://instagram-clone-mikolaj.firebaseapp.com/__/auth/handler
 
@@ -40,7 +47,28 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Instagram Clone - Mikolaj'),
       ),
-      body: Center(),
+      body: Column(
+        children: [
+          TextButton(
+            onPressed: () async {
+              var status = await Authenticator.instance.loginWithGoogle();
+              status.log();
+            },
+            child: const Text(
+              'Sign In with Google',
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              var status = await Authenticator.instance.loginWithFacebook();
+              status.log();
+            },
+            child: const Text(
+              'Sign In with Facebook',
+            ),
+          )
+        ],
+      ),
     );
   }
 }
