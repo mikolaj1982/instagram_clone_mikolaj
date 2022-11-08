@@ -2,7 +2,8 @@ import 'dart:developer' as devtools show log;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_mikolaj/state/auth/backend/authenticator.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:instagram_clone_mikolaj/state/auth/providers/auth_state_provider.dart';
 
 import 'firebase_options.dart';
 
@@ -10,14 +11,17 @@ extension Log on Object {
   void log() => devtools.log(toString());
 }
 
-// https://instagram-clone-mikolaj.firebaseapp.com/__/auth/handler
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -38,37 +42,68 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? userId = ref.watch(userIdProvider);
+    final bool isLoggedIn = ref.watch(isLoggedInProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Instagram Clone - Mikolaj'),
-      ),
-      body: Column(
-        children: [
-          TextButton(
-            onPressed: () async {
-              var status = await Authenticator.instance.loginWithGoogle();
-              status.log();
-            },
-            child: const Text(
-              'Sign In with Google',
+        actions: [
+          if (userId != null)
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () => ref.read(authStateProvider.notifier).logOut(),
             ),
-          ),
-          TextButton(
-            onPressed: () async {
-              var status = await Authenticator.instance.loginWithFacebook();
-              status.log();
-            },
-            child: const Text(
-              'Sign In with Facebook',
-            ),
-          )
         ],
       ),
+      body: (isLoggedIn) ? const MainView() : const LoginView(),
+    );
+  }
+}
+
+// for when you are already logged in
+class MainView extends ConsumerWidget {
+  const MainView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? userId = ref.watch(userIdProvider);
+    return Center(
+      child: Text('Welcome $userId'),
+    );
+  }
+}
+
+// when logged out
+class LoginView extends ConsumerWidget {
+  const LoginView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        TextButton(
+          onPressed: () {
+            ref.read(authStateProvider.notifier).loginWithGoogle();
+          },
+          child: const Text(
+            'Sign In with Google',
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            ref.read(authStateProvider.notifier).loginWithFacebook();
+          },
+          child: const Text(
+            'Sign In with Facebook',
+          ),
+        ),
+      ],
     );
   }
 }

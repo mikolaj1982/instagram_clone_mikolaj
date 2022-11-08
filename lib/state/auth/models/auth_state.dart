@@ -14,7 +14,7 @@ class AuthState {
     required this.userId,
   });
 
-  const AuthState.unknown()
+  const AuthState.loggedOut()
       : result = null,
         isLoading = false,
         userId = null;

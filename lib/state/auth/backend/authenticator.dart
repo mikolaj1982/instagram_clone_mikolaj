@@ -1,10 +1,15 @@
+import 'dart:developer' as devtools show log;
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:instagram_clone_mikolaj/state/auth/constants/constant.dart';
 import 'package:instagram_clone_mikolaj/state/auth/models/auth_result.dart';
 import 'package:instagram_clone_mikolaj/state/posts/typedefs/user_id.dart';
+
+extension Log on Object {
+  void log() => devtools.log(toString());
+}
 
 class Authenticator {
   static final Authenticator _instance = Authenticator._();
@@ -33,6 +38,7 @@ class Authenticator {
 
     if (token == null) {
       // user has aborted the login
+      'user has aborted the login'.log();
       return AuthResult.aborted;
     }
 
@@ -46,7 +52,7 @@ class Authenticator {
 
       return AuthResult.success;
     } on FirebaseAuthException catch (e) {
-      debugPrint(e.toString());
+      e.log();
       final email = e.email;
       final credential = e.credential;
 
@@ -77,6 +83,7 @@ class Authenticator {
     final signInAccount = await googleSignIn.signIn();
     if (signInAccount == null) {
       // user has aborted the login
+      'user has aborted the login'.log();
       return AuthResult.aborted;
     }
 
@@ -92,7 +99,7 @@ class Authenticator {
       );
       return AuthResult.success;
     } catch (e) {
-      debugPrint(e.toString());
+      e.log();
       return AuthResult.failure;
     }
   }
