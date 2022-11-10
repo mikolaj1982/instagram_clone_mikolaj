@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_mikolaj/state/auth/providers/auth_state_provider.dart';
+import 'package:instagram_clone_mikolaj/views/components/loading/loading_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -37,7 +38,19 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData.dark(),
-      home: const HomePage(),
+      home: Consumer(
+        builder: (context, ref, child) {
+          ref.listen<bool>(isLoadingProvider, (_, isLoading) {
+            if (isLoading) {
+              LoadingScreen.instance().show(context: context);
+            } else {
+              LoadingScreen.instance().hide();
+            }
+          });
+
+          return const HomePage();
+        },
+      ),
     );
   }
 }
@@ -103,6 +116,24 @@ class LoginView extends ConsumerWidget {
             'Sign In with Facebook',
           ),
         ),
+
+        TextButton(
+          onPressed: () {
+            ref.read(authStateProvider.notifier).showLoading();
+
+            Future.delayed(const Duration(seconds: 3), () {
+              LoadingScreen.instance().show(context: context, message: 'test...');
+
+              Future.delayed(const Duration(seconds: 2), () {
+                LoadingScreen.instance().show(context: context, message: 'pizdeczka...');
+              });
+            });
+          },
+          child: const Text(
+            'show loader',
+          ),
+        ),
+        //
       ],
     );
   }

@@ -20,3 +20,8 @@ final userIdProvider = Provider<UserId?>((ref) {
   final AuthState authState = ref.watch(authStateProvider);
   return authState.userId;
 });
+
+final isLoadingProvider = Provider<bool>((ref) {
+  final AuthState authState = ref.watch(authStateProvider);
+  return authState.isLoading;
+});

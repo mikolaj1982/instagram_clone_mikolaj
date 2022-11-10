@@ -5,6 +5,7 @@ import 'package:instagram_clone_mikolaj/state/auth/models/auth_state.dart';
 import 'package:instagram_clone_mikolaj/state/posts/typedefs/user_id.dart';
 import 'package:instagram_clone_mikolaj/state/user_info/backend/user_info_storage.dart';
 
+// this is really just a Stream... talks to Authenticator class and sets the states accordingly
 class AuthStateNotifier extends StateNotifier<AuthState> {
   final _userInfoStorage = const UserInfoStorage();
 
@@ -60,7 +61,14 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     return _userInfoStorage.saveUserInfo(
       userId: userId,
       email: Authenticator.instance.email!,
-      displayName: Authenticator.instance.displayName!,
+      displayName: Authenticator.instance.displayName,
     );
+  }
+
+  showLoading() {
+    state = state.copiedWithIsLoading(true);
+    Future.delayed(const Duration(seconds: 10), () {
+      state = state.copiedWithIsLoading(false);
+    });
   }
 }
