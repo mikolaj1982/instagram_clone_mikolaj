@@ -29,7 +29,7 @@ class GoogleButton extends StatelessWidget {
               color: AppColors.googleColor,
             ),
             const SizedBox(width: 8),
-            const Text('Sign in with Facebook'),
+            const Text('Sign in with Google'),
           ],
         ),
       ),
