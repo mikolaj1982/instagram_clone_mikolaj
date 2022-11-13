@@ -4,7 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_mikolaj/state/auth/providers/auth_state_provider.dart';
+import 'package:instagram_clone_mikolaj/views/components/constants/strings.dart';
 import 'package:instagram_clone_mikolaj/views/components/loading/loading_screen.dart';
+import 'package:instagram_clone_mikolaj/views/login/login_view.dart';
 
 import 'firebase_options.dart';
 
@@ -65,7 +67,7 @@ class HomePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Instagram Clone - Mikolaj'),
+        title: const Text(Strings.appName),
         actions: [
           if (userId != null)
             IconButton(
@@ -88,53 +90,6 @@ class MainView extends ConsumerWidget {
     final String? userId = ref.watch(userIdProvider);
     return Center(
       child: Text('Welcome $userId'),
-    );
-  }
-}
-
-// when logged out
-class LoginView extends ConsumerWidget {
-  const LoginView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        TextButton(
-          onPressed: () {
-            ref.read(authStateProvider.notifier).loginWithGoogle();
-          },
-          child: const Text(
-            'Sign In with Google',
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            ref.read(authStateProvider.notifier).loginWithFacebook();
-          },
-          child: const Text(
-            'Sign In with Facebook',
-          ),
-        ),
-
-        TextButton(
-          onPressed: () {
-            ref.read(authStateProvider.notifier).showLoading();
-
-            Future.delayed(const Duration(seconds: 3), () {
-              LoadingScreen.instance().show(context: context, message: 'test...');
-
-              Future.delayed(const Duration(seconds: 2), () {
-                LoadingScreen.instance().show(context: context, message: 'pizdeczka...');
-              });
-            });
-          },
-          child: const Text(
-            'show loader',
-          ),
-        ),
-        //
-      ],
     );
   }
 }
