@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_mikolaj/state/auth/providers/auth_state_provider.dart';
+import 'package:instagram_clone_mikolaj/views/components/animations/sign_in_animation_view.dart';
 import 'package:instagram_clone_mikolaj/views/components/constants/strings.dart';
 import 'package:instagram_clone_mikolaj/views/login/facebook_button.dart';
 import 'package:instagram_clone_mikolaj/views/login/login_view_signup_links.dart';
@@ -25,17 +26,29 @@ class LoginView extends ConsumerWidget {
               height: 40,
             ),
             // header text
-            Text(
-              Strings.welcomeToAppName,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.oswald(
-                textStyle: Theme.of(context).textTheme.displaySmall,
-                fontWeight: FontWeight.w700,
-                shadows: <Shadow>[
-                  const Shadow(
-                    offset: Offset(4.0, 4.0),
-                    blurRadius: 3.0,
-                    color: Colors.black,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: SignInAnimationView(),
+                  ),
+                  Text(
+                    Strings.welcomeToAppName,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.oswald(
+                      textStyle: Theme.of(context).textTheme.headlineMedium,
+                      fontWeight: FontWeight.w700,
+                      shadows: <Shadow>[
+                        const Shadow(
+                          offset: Offset(4.0, 4.0),
+                          blurRadius: 3.0,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

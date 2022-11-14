@@ -54,3 +54,4 @@ flutter:
     - assets/animations/data_not_found.json
     - assets/animations/error.json
     - assets/animations/small_error.json
+    - assets/animations/sign-in-or-sign-up-animation.json
