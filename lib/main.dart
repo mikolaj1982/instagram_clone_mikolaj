@@ -4,9 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_mikolaj/state/auth/providers/auth_state_provider.dart';
-import 'package:instagram_clone_mikolaj/views/components/constants/strings.dart';
 import 'package:instagram_clone_mikolaj/views/components/loading/loading_screen.dart';
 import 'package:instagram_clone_mikolaj/views/login/login_view.dart';
+import 'package:instagram_clone_mikolaj/views/main/main_view.dart';
 
 import 'firebase_options.dart';
 
@@ -27,11 +27,13 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isLoggedIn = ref.watch(isLoggedInProvider);
+
     return MaterialApp(
       title: 'Instagram Clone - Mikolaj',
       debugShowCheckedModeBanner: false,
@@ -50,46 +52,9 @@ class MyApp extends StatelessWidget {
             }
           });
 
-          return const HomePage();
+          return Scaffold(body: (isLoggedIn) ? const MainView() : const LoginView());
         },
       ),
-    );
-  }
-}
-
-class HomePage extends ConsumerWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String? userId = ref.watch(userIdProvider);
-    final bool isLoggedIn = ref.watch(isLoggedInProvider);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(Strings.appName),
-        actions: [
-          if (userId != null)
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () => ref.read(authStateProvider.notifier).logOut(),
-            ),
-        ],
-      ),
-      body: (isLoggedIn) ? const MainView() : const LoginView(),
-    );
-  }
-}
-
-// for when you are already logged in
-class MainView extends ConsumerWidget {
-  const MainView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String? userId = ref.watch(userIdProvider);
-    return Center(
-      child: Text('Welcome $userId'),
     );
   }
 }
