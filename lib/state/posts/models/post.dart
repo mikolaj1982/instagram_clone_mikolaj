@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:instagram_clone_mikolaj/state/image_upload/models/file_type.dart';
 import 'package:instagram_clone_mikolaj/state/posts_settings/models/post_setting.dart';
@@ -21,6 +20,7 @@ class Post {
   Post({
     required this.postId,
     required Map<String, dynamic> json,
+    required this.createdAt,
   })  : userId = json[PostKey.userId],
         message = json[PostKey.message],
         thumbnailUrl = json[PostKey.thumbnailUrl],
@@ -29,7 +29,7 @@ class Post {
         aspectRatio = json[PostKey.aspectRatio],
         thumbnailStorageId = json[PostKey.thumbnailStorageId],
         originalFileStorageId = json[PostKey.originalFileStorageId],
-        createdAt = (json[PostKey.createdAt] as Timestamp).toDate(),
+        // createdAt = (json[PostKey.createdAt] as Timestamp).toDate(),
         fileType = FileType.values.firstWhere(
           (fileType) => fileType.name == json[PostKey.fileType],
           orElse: () => FileType.image,

@@ -17,6 +17,7 @@ class UserPostsView extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () {
         debugPrint('refresh posts');
+        // ignore: unused_result
         ref.refresh(allPostsProvider);
         return Future.delayed(
           const Duration(seconds: 1),

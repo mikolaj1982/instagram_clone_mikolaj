@@ -73,6 +73,8 @@ final userPostsProvider = StreamProvider.autoDispose<Iterable<Post>>((ref) {
           (doc) => Post(
             postId: doc.id,
             json: doc.data(),
+            createdAt:
+                (doc.data()['created_at'] == null) ? DateTime.now() : (doc.data()['created_at'] as Timestamp).toDate(),
           ),
         )
         .toList();
@@ -93,9 +95,13 @@ final allPostsProvider = StreamProvider.autoDispose<Iterable<Post>>((ref) {
 
   final sub = FirebaseFirestore.instance.collection('posts').snapshots().listen((snapshots) {
     final posts = snapshots.docs.map((doc) {
+      // debugPrint(doc.data()['created_at'].toString());
+      // debugPrint('-----------------------------------------');
       final p = Post(
         postId: doc.id,
         json: doc.data(),
+        createdAt:
+            (doc.data()['created_at'] == null) ? DateTime.now() : (doc.data()['created_at'] as Timestamp).toDate(),
       );
       return p;
     });
