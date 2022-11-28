@@ -98,7 +98,7 @@ class _CreateNewPostViewState extends ConsumerState<CreateNewPostView> {
                     labelText: Strings.pleaseWriteYourMessageHere,
                   ),
                   autofocus: true,
-                  maxLines: null,
+                  maxLines: null, // makes it multiline
                 ),
               ),
               ...PostSetting.values.map(

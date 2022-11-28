@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_mikolaj/views/components/constants/strings.dart';
 
 @immutable
 class AlertDialogModel<T> {
@@ -51,6 +52,18 @@ class LogoutDialog extends AlertDialogModel<bool> {
           buttons: const {
             'Yes': true,
             'No': false,
+          },
+        );
+}
+
+class DeleteDialog extends AlertDialogModel<bool> {
+  const DeleteDialog({required String titleOfObjectToDelete})
+      : super(
+          title: '${Strings.delete} $titleOfObjectToDelete?',
+          message: 'Are you sure you want to delete this $titleOfObjectToDelete?',
+          buttons: const {
+            'Delete': true,
+            'Cancel': false,
           },
         );
 }

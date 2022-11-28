@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_mikolaj/state/posts/models/post.dart';
 import 'package:instagram_clone_mikolaj/views/components/post/post_thumbnail_view.dart';
+import 'package:instagram_clone_mikolaj/views/post_comments/post_comments_view.dart';
 
 class PostsGridView extends StatelessWidget {
   final Iterable<Post> posts;
@@ -22,7 +23,20 @@ class PostsGridView extends StatelessWidget {
         return PostThumbnailView(
           post: post,
           onTap: () {
-            debugPrint('Post tapped: $post');
+            // debugPrint('Post tapped: $post');
+            Navigator.push(
+              context,
+              // MaterialPageRoute(
+              //   builder: (context) => PostDetailsView(
+              //     post: post,
+              //   ),
+              // ),
+              MaterialPageRoute(
+                builder: (context) => PostCommentsView(
+                  postId: post.postId,
+                ),
+              ),
+            );
           },
         );
       },

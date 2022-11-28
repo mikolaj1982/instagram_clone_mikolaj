@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_mikolaj/state/auth/providers/auth_state_provider.dart';
 import 'package:instagram_clone_mikolaj/state/image_upload/models/file_type.dart';
+import 'package:instagram_clone_mikolaj/state/posts/providers/providers.dart';
 import 'package:instagram_clone_mikolaj/views/components/constants/strings.dart';
 import 'package:instagram_clone_mikolaj/views/components/dialogs/logout_dialog.dart';
 import 'package:instagram_clone_mikolaj/views/components/post/create_new_post_view.dart';
@@ -29,16 +30,44 @@ class _MainViewState extends ConsumerState<MainView> {
             actions: [
               IconButton(
                 icon: const FaIcon(FontAwesomeIcons.film),
-                onPressed: () async {},
+                onPressed: () async {
+                  //pick a video first
+                  final videoFile = await ImagePicker().pickVideo(source: ImageSource.gallery).toFile();
+                  if (videoFile == null) {
+                    return;
+                  }
+
+                  // reset the postSettingProvider
+                  ref.refresh(postSettingsProvider);
+
+                  // go to create new post view
+                  if (!mounted) {
+                    return;
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => CreateNewPostView(
+                        type: FileType.video,
+                        fileToPost: videoFile,
+                      ),
+                    ),
+                  );
+                },
               ),
               IconButton(
                 icon: const Icon(Icons.add_photo_alternate_outlined),
                 onPressed: () async {
-                  //pick image first
+                  //pick an image first
                   final imageFile = await ImagePicker().pickImage(source: ImageSource.gallery).toFile();
                   if (imageFile == null) {
                     return;
                   }
+
+                  // reset the postSettingProvider
+                  ref.refresh(postSettingsProvider);
+
+                  // go to create new post view
                   if (!mounted) {
                     return;
                   }
@@ -92,5 +121,6 @@ class _MainViewState extends ConsumerState<MainView> {
 }
 
 extension ToFile on Future<XFile?> {
+  // turn from path into a file, from xFile extract path and turn path into a file
   Future<File?> toFile() => then((xFile) => xFile?.path).then((filePath) => filePath != null ? File(filePath) : null);
 }

@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_mikolaj/state/auth/models/auth_result.dart';
+import 'package:instagram_clone_mikolaj/state/comments/providers/add_comment_provider.dart';
 import 'package:instagram_clone_mikolaj/state/posts/providers/providers.dart';
 import 'package:instagram_clone_mikolaj/state/posts/typedefs/user_id.dart';
 import 'package:instagram_clone_mikolaj/state/posts_settings/notifiers/image_upload_notifier.dart';
@@ -26,6 +27,7 @@ final userIdProvider = Provider<UserId?>((ref) {
 final isLoadingProvider = Provider<bool>((ref) {
   final AuthState authState = ref.watch(authStateProvider);
   final IsLoading isUploadingImage = ref.watch(imageUploaderProvider);
+  final IsLoading isPostingComment = ref.watch(sendCommentProvider);
 
-  return authState.isLoading || isUploadingImage;
+  return authState.isLoading || isUploadingImage || isPostingComment;
 });
