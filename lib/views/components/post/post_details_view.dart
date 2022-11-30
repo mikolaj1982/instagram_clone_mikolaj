@@ -23,13 +23,6 @@ class _PostDetailsViewState extends ConsumerState<PostDetailsView> {
       limit: 10,
     );
 
-    //TODO Use the request to fetch the comments for a certain post
-    // final postWithComments = ref.watch(
-    //   specificPostWithCommentsProvider(
-    //     request,
-    //   ),
-    // );
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(Strings.postDetails),

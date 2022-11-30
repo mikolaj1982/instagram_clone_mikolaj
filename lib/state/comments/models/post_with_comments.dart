@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_mikolaj/state/comments/models/comment.dart';
 import 'package:instagram_clone_mikolaj/state/posts/models/post.dart';
@@ -18,9 +19,12 @@ class PostWithComments {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PostWithComments && runtimeType == other.runtimeType && post == other.post && comments == other.comments;
+  bool operator ==(covariant PostWithComments other) =>
+      post == other.post &&
+      const IterableEquality().equals(
+        comments,
+        other.comments,
+      );
 
   @override
   int get hashCode => Object.hashAll([
