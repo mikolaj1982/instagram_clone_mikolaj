@@ -23,7 +23,7 @@ class PostsGridView extends StatelessWidget {
         return PostThumbnailView(
           post: post,
           onTap: () {
-            // debugPrint('Post tapped: $post');
+            // debugPrint('Post tapped: ${post.postId}');
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -31,11 +31,6 @@ class PostsGridView extends StatelessWidget {
                   post: post,
                 ),
               ),
-              // MaterialPageRoute(
-              //   builder: (context) => PostCommentsView(
-              //     postId: post.postId,
-              //   ),
-              // ),
             );
           },
         );

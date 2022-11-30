@@ -34,8 +34,15 @@ final specificPostWithCommentsProvider = StreamProvider.autoDispose.family<PostW
     }
 
     // watch changes to the post
-    final postSub =
-        FirebaseFirestore.instance.collection('posts').where(FieldPath.documentId).limit(1).snapshots().listen(
+    final postSub = FirebaseFirestore.instance
+        .collection('posts')
+        .where(
+          FieldPath.documentId,
+          isEqualTo: request.postId,
+        )
+        .limit(1)
+        .snapshots()
+        .listen(
       (snapshot) {
         if (snapshot.docs.isEmpty) {
           post = null;
@@ -50,7 +57,8 @@ final specificPostWithCommentsProvider = StreamProvider.autoDispose.family<PostW
         post = Post(
           postId: doc.id,
           json: doc.data(),
-          createdAt: doc.data()['created_at'],
+          createdAt:
+              doc.data()['created_at'] == null ? DateTime.now() : (doc.data()['created_at'] as Timestamp).toDate(),
         );
         notify();
       },

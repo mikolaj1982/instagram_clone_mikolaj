@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:instagram_clone_mikolaj/state/constants/firebase_field_name.dart';
 import 'package:instagram_clone_mikolaj/state/likes/models/like.dart';
 import 'package:instagram_clone_mikolaj/state/likes/models/like_dislike_request.dart';
 
@@ -15,7 +16,7 @@ final likeDislikePostProvider = FutureProvider.autoDispose.family<bool, LikeDisl
           isEqualTo: request.postId,
         )
         .where(
-          'user_id',
+          FirebaseFieldName.userId,
           isEqualTo: request.likedBy,
         )
         .get();

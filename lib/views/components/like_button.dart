@@ -26,7 +26,6 @@ class LikeButton extends ConsumerWidget {
         return IconButton(
           icon: FaIcon(
             hasLiked ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
-            color: hasLiked ? Colors.red : Colors.black,
           ),
           onPressed: () {
             final userId = ref.read(userIdProvider);
