@@ -12,7 +12,7 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var allPosts = ref.watch(allPostsProvider);
+    final allPosts = ref.watch(allPostsProvider);
 
     return RefreshIndicator(
       onRefresh: () {

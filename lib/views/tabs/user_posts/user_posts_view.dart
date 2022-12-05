@@ -12,7 +12,7 @@ class UserPostsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var userPosts = ref.watch(userPostsProvider);
+    final userPosts = ref.watch(userPostsProvider);
 
     return RefreshIndicator(
       onRefresh: () {
