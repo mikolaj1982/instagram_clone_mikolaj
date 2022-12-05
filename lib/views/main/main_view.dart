@@ -10,6 +10,7 @@ import 'package:instagram_clone_mikolaj/state/posts/providers/providers.dart';
 import 'package:instagram_clone_mikolaj/views/components/constants/strings.dart';
 import 'package:instagram_clone_mikolaj/views/components/dialogs/logout_dialog.dart';
 import 'package:instagram_clone_mikolaj/views/components/post/create_new_post_view.dart';
+import 'package:instagram_clone_mikolaj/views/tabs/home/home_view.dart';
 import 'package:instagram_clone_mikolaj/views/tabs/search/search_view.dart';
 import 'package:instagram_clone_mikolaj/views/tabs/user_posts/user_posts_view.dart';
 
@@ -113,8 +114,8 @@ class _MainViewState extends ConsumerState<MainView> {
           body: const TabBarView(
             children: [
               UserPostsView(),
-              Center(child: SearchView()),
-              Center(child: Text('Home')),
+              SearchView(),
+              HomeView(),
             ],
           ),
         ));

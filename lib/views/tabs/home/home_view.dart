@@ -7,12 +7,12 @@ import 'package:instagram_clone_mikolaj/views/components/animations/loading_anim
 import 'package:instagram_clone_mikolaj/views/components/constants/strings.dart';
 import 'package:instagram_clone_mikolaj/views/components/post/posts_grd_view.dart';
 
-class UserPostsView extends ConsumerWidget {
-  const UserPostsView({Key? key}) : super(key: key);
+class HomeView extends ConsumerWidget {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var userPosts = ref.watch(userPostsProvider);
+    var allPosts = ref.watch(allPostsProvider);
 
     return RefreshIndicator(
       onRefresh: () {
@@ -23,7 +23,7 @@ class UserPostsView extends ConsumerWidget {
           const Duration(seconds: 1),
         );
       },
-      child: userPosts.when(
+      child: allPosts.when(
         data: (posts) {
           if (posts.isEmpty) {
             return const EmptyContentsWithTextAnimationView(text: Strings.noPostsAvailable);
